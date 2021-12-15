@@ -49,10 +49,10 @@ func CompressAndEncrypt(source io.Reader, compressor compression.Compressor, cry
 	}
 
 	go func() {
-		tracelog.DebugLogger.Printf("compressedWriter: %s, source: %s", compressedWriter, source)
 		_, err := utility.FastCopy(compressedWriter, source)
 
 		if err != nil {
+			tracelog.DebugLogger.Printf("fast copy error :: %+v", err)
 			e := newCompressingPipeWriterError("CompressAndEncrypt: compression failed")
 			_ = dstWriter.CloseWithError(e)
 		}
